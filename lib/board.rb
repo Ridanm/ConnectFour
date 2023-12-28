@@ -31,5 +31,5 @@ class Board
 	end
 end 
 
-b = Board.new 
-b.show_board
+# b = Board.new 
+# b.show_board
