@@ -1,6 +1,7 @@
+# U+2686 pieze 
 class Game
 	def initialize 
-
+		
 	end
 
 	def valid_move?(column)
@@ -10,7 +11,7 @@ class Game
 	def player_move 
 
 	end
-
+  
 	def drop_piece
 
 	end
