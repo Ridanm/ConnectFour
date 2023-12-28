@@ -1,4 +1,3 @@
-require 'colorize'
 class Player 
 	attr_reader :name 
 
@@ -10,8 +9,3 @@ class Player
 		"\u3007"
 	end
 end
-
-player = Player.new('joe')
-p player.name 
-
-puts player.piece.blue
