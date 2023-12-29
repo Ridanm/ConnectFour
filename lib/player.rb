@@ -6,6 +6,6 @@ class Player
 	end
 
 	def piece 
-		"\u3007"
+		"\u2B55"
 	end
 end
