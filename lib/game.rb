@@ -5,7 +5,7 @@ class Game
 	end
 
 	def valid_move?(column)
-
+		
 	end
 
 	def player_move 
