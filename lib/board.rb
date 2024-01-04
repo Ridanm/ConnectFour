@@ -29,4 +29,5 @@ end
 b = Board.new 
 b.board[5][0] = "\u25CE".red #"\u2B55".red
 b.board[5][5] = "\u25CE".blue
-b.show_board
+b.board[0][4] = "\u25CE".cyan
+b.show_board 
