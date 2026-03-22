@@ -1,33 +1,41 @@
+# frozen_string_literal: true       
+
+require_relative 'dependencies'
 require 'colorize'
 
-class Board 
-	attr_accessor :board 
+# This class implement Connect Four game board
+class Board
+  attr_accessor :boxes, :column_numbers
 
-	def initialize 
-		@board = Array.new(6) { Array.new(7, ' ') }
-	end
+  def initialize
+    @boxes = Array.new(6) { Array.new(7, ' ') }
+    @column_numbers = (1..7).to_a
+  end
 
-	def each_box
-		@board.each do |box|  
-			separator = '-'.blue * 29
-			puts "#{separator}\n#{'| '.blue}#{box.join(' | ')} #{'|'.blue}"
-		end
-	end
+  def create_board
+    separator = '-'.blue * 29
+    result = headers_of_columns
+    boxes.each do |box|
+      result << "#{separator}\n#{'| '.blue}#{box.join(' | ')} #{'|'.blue}\n"
+    end
+    result << separator
+    result
+  end
 
-	def numbers_of_column 
-		numbers = (1..7).to_a
-		separator = '-'.blue * 29
-		puts "#{separator}\n  #{numbers.join('   ').yellow}"
-	end
+  def headers_of_columns
+    "\n  #{column_numbers.join('   ').yellow}\n"
+  end
 
-	def show_board
-		each_box
-		numbers_of_column
-	end
-end 
+  def show_board
+    puts create_board
+  end
 
-b = Board.new 
-b.board[5][0] = "\u25CE".red #"\u2B55".red
-b.board[5][5] = "\u25CE".blue
-b.board[0][4] = "\u25CE".cyan
-b.show_board 
+  def piece(color)
+    { 'white' =>  "\u2742".white,
+      'red' => "\u2742".red,
+      'yellow' => "\u2742".yellow,
+      'blue' => "\u2742".blue,
+      'light_red' => "\u2742".light_red
+    }[color]
+  end
+end
