@@ -1,31 +1,22 @@
-# U+2686 pieze 
+# frozen_string_literal:true
+
+# This class implements column validation, player creation, and how the pieces are arranged on the board.
 class Game
-	def initialize 
-		
-	end
+  def initialize; end
 
-	def valid_move?(column)
-		
-	end
+  def valid_move?(column); end
 
-	def player_move 
+  def player_move; end
 
-	end
-  
-	def drop_piece
+  def drop_piece(column, symbol)
+    
+  end
 
-	end
+  def switch_player; end
 
-	def switch_player
+  def win?; end
 
-	end
+  def game_over?; end
 
-	def win? 
-
-	end 
-
-	def game_over?
-
-	end
-
+  def play_again; end
 end
