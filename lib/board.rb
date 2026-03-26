@@ -1,7 +1,7 @@
 # frozen_string_literal: true       
 
-require_relative 'dependencies'
 require 'colorize'
+require_relative 'dependencies'
 
 # This class implement Connect Four game board
 class Board
