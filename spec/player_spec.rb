@@ -1,29 +1,47 @@
-require './lib/dependencies.rb' 
+# frozen_string_literal: true
 
-RSpec.describe Player do 
-	let(:player) { Player.new('Jhon') }
+require '../lib/dependencies'
 
-	context '#initialize' do 
-		it 'create a player instance' do 
-			expect(player).to be_an_instance_of(Player)
- 		end
+RSpec.describe Player do
+  describe '#initialize' do
+    it 'when an instance of the class is created' do
+      expect(subject).to be_an_instance_of(Player)
+    end
 
-		it 'create a name player instance' do 
-			expect(player.name).to eq('Jhon')
-		end
-	end
+    it 'before entering the name' do
+      expect(subject.name).to be('Player')
+    end
+  end
 
-		context '#name' do 
-			player = Player.new('joe')
+  describe '#enter_name' do
+    it 'when the player enters their name' do
+      expect(subject).to receive(:gets).and_return('Joe')
+      subject.enter_name
+      expect(subject.name).to eq('Joe')
+    end
 
-			it 'create a name player instace the first letter' do  
-				expect(player.name).to eq('Joe')
-			end
-	end
+    it 'when the player does not enter their name' do
+      expect(subject).to receive(:gets).and_return(' ')
+      subject.enter_name
+      expect(subject.name).to eq('Player')
+    end
+  end
 
-	context '#piece' do 
-		it 'to call the piece method' do 
-			expect(player.piece).to eq('〇')
-		end
-	end
+  describe '#enter_piece_color' do
+    it 'when you select the red piece' do
+      expect(subject).to receive(:gets).and_return('red')
+      expect(subject.enter_piece_color).to eq("\u2742".red)
+    end
+
+    it 'when select yellow piece' do
+      expect(subject).to receive(:gets).and_return('yellow')
+      expect(subject.enter_piece_color).to eq("\u2742".yellow)
+    end
+
+    it 'when you select a color that is not' do
+      expect(subject).to receive(:gets).and_return('black', 'blue')
+      expect(subject).to receive(:enter_piece_color).and_call_original.exactly(2).times
+      expect(subject.enter_piece_color).to eq("\u2742".blue)
+    end
+  end
 end
