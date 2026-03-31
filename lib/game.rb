@@ -14,7 +14,7 @@ class Game
 
   def valid_column!
     column = gets.chomp.to_i
-    return column if column.between?(1, 7
+    return column if column.between?(1, 7)
 
     puts Info.message('select column')
     valid_column!
