@@ -7,6 +7,7 @@ require_relative 'dependencies'
 class Board
   attr_accessor :boxes, :column_numbers
 
+
   def initialize
     @boxes = Array.new(6) { Array.new(7, ' ') }
     @column_numbers = (1..7).to_a
@@ -35,7 +36,19 @@ class Board
       'red' => "\u2742".red,
       'yellow' => "\u2742".yellow,
       'blue' => "\u2742".blue,
-      'light_red' => "\u2742".light_red
+      'light red' => "\u2742".light_red,
+      'cyan' => "\u2742".cyan,
+      'light blue' => "\u2742".light_blue  
     }[color]
+  end
+
+  def drop_piece(column, piece)
+    (boxes.length-1).downto(0) do |row|
+      if boxes[row][column - 1] == ' '
+        boxes[row][column - 1] = piece
+        return true
+      end
+    end
+    false
   end
 end
