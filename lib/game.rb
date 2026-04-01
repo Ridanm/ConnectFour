@@ -40,4 +40,6 @@ class Game
   def game_over?; end
 
   def play_again; end
+
+  def play; end
 end
