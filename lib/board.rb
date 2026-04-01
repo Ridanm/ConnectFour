@@ -6,10 +6,10 @@ require_relative 'dependencies'
 # This class implement Connect Four game board
 class Board
   attr_accessor :boxes, :column_numbers
-
+  include Info
 
   def initialize
-    @boxes = Array.new(6) { Array.new(7, ' ') }
+    @boxes = Array.new(6) { Array.new(7, A_SPACE) }
     @column_numbers = (1..7).to_a
   end
 
@@ -17,14 +17,14 @@ class Board
     separator = '-'.blue * 29
     result = headers_of_columns
     boxes.each do |box|
-      result << "#{separator}\n#{'| '.blue}#{box.join(' | ')} #{'|'.blue}\n"
+      result << "#{separator}\n#{'| '.blue}#{box.join(' | '.blue)} #{'|'.blue}\n"
     end
     result << separator
     result
   end
 
   def headers_of_columns
-    "\n  #{column_numbers.join('   ').yellow}\n"
+    "\n  #{column_numbers.join(THREE_SPACES).yellow}\n"
   end
 
   def show_board
