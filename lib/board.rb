@@ -1,4 +1,4 @@
-# frozen_string_literal: true       
+# frozen_string_literal: true
 
 require 'colorize'
 require_relative 'dependencies'
@@ -6,6 +6,7 @@ require_relative 'dependencies'
 # This class implement Connect Four game board
 class Board
   attr_accessor :boxes, :column_numbers
+
   include Info
 
   def initialize
@@ -14,10 +15,11 @@ class Board
   end
 
   def create_board
-    separator = '-'.blue * 29
+    separator = '-'.green * 29
     result = headers_of_columns
     boxes.each do |box|
-      result << "#{separator}\n#{'| '.blue}#{box.join(' | '.blue)} #{'|'.blue}\n"
+      @boxes = Array.new(6) { Array.new(7, A_SPACE) }
+      result << "#{separator}\n| #{box.join(' | ')} |\n"
     end
     result << separator
     result
@@ -32,20 +34,19 @@ class Board
   end
 
   def piece(color)
-    { 'white' =>  "\u2742".white,
+    { 'white' => "\u2742".white,
       'red' => "\u2742".red,
       'yellow' => "\u2742".yellow,
       'blue' => "\u2742".blue,
       'light red' => "\u2742".light_red,
       'cyan' => "\u2742".cyan,
-      'light blue' => "\u2742".light_blue  
-    }[color]
+      'light blue' => "\u2742".light_blue }[color]
   end
 
-  def drop_piece(column, piece)
-    (boxes.length-1).downto(0) do |row|
-      if boxes[row][column - 1] == ' '
-        boxes[row][column - 1] = piece
+  def drop_piece?(column, piece)
+    (@boxes.length - 1).downto(0) do |row|
+      if @boxes[row][column - 1] == A_SPACE
+        @boxes[row][column - 1] = piece
         return true
       end
     end
