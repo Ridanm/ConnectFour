@@ -75,15 +75,15 @@ RSpec.describe 'Board' do
 
   describe '#drop_piece' do
     it 'when player choose column 1' do
-      board.drop_piece(1, piece)
+      board.drop_piece?(1, piece)
       expect(board.boxes[5][0]).to eq(piece)
     end
 
-    it 'when the space is occupied' do
+    it 'when the column is full' do
       board.boxes[5][0] = piece.red
       board.boxes[4][0] = piece
-      4.times { board.drop_piece(1, piece) }
-      expect(board.drop_piece(1, piece)).to be false
+      4.times { board.drop_piece?(1, piece) }
+      expect(board.drop_piece?(1, piece)).to be false
     end
   end
 end
