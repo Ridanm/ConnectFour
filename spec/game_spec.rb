@@ -64,11 +64,11 @@ RSpec.describe 'Game' do
     end
   end
 
-  describe '#player_move?' do
+  describe '#player_move' do
     it 'when a player drops a piece' do
       expect(player).to receive(:gets).and_return("2\n")
       column = player.valid_column
-      expect(game.player_move?(column, piece)).to be true
+      expect(game.player_move(column, piece)).to be true
     end
   end
 
