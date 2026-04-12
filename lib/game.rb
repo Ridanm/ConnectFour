@@ -4,42 +4,51 @@ require_relative 'dependencies'
 
 # This class implements column validation, player creation, and how the pieces are arranged on the board.
 class Game
-  attr_reader :board
+  attr_reader :board, :player, :player_one, :player_two, :number_of_moves
 
   include Info
 
-  def initialize(board)
+  def initialize(board, player_one, player_two)
     @board = board
+    @player_one = player_one
+    @player_two = player_two
+    @number_of_moves = 1
+    @player = swap_player
   end
 
-  def valid_column!
-    column = gets.chomp.to_i
-    return column if column.between?(1, 7)
+  def presentation
+    puts Info.message('welcome')    end
 
-    puts Info.message('select column')
-    valid_column!
-  end
-
-  def full_column?(column)
-    if board.boxes[column - 1][0] != ' '
-      puts Info.message('full column')
+  def full_column?(column)              if board.boxes[column - 1][0] != ' ' 
+      puts Info.message('full column
+')
       return true
     end
     false
   end
 
-  def player_move(piece)
-    column = valid_column
-    board.drop_piece(column, piece)
+  def swap_player
+    player = number_of_moves
+    player.odd? ? player_one : player_two
   end
 
-  def switch_player; end
+  def player_move?(column, piece)
+    board.drop_piece?(column, piece)
+  end
+
+  def play_turn
+    board.show_board
+    # piece = player.enter_piece_collor # Remove selected color to avoid repetition
+    column = player.valid_column
+    until player_move?(column, player.piece)
+      column = player.valid_column
+    end
+    number_of_moves += 1
+  end
 
   def win?; end
 
   def game_over?; end
 
   def play_again; end
-
-  def play; end
 end
