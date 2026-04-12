@@ -32,7 +32,7 @@ class Game
     player.odd? ? player_one : player_two
   end
 
-  def player_move?(column, piece)
+  def player_move(column, piece)
     board.drop_piece?(column, piece)
   end
 
