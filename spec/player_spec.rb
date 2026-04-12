@@ -44,4 +44,17 @@ RSpec.describe Player do
       expect(subject.enter_piece_color).to eq("\u2742".blue)
     end
   end
+
+  describe '#valid_column' do
+    it 'when the column number is correct' do
+      expect(subject).to receive(:gets).and_return("4\n")
+      expect(subject.valid_column).to eq(4)
+    end
+
+    it 'when the column number is not found' do
+      expect(subject).to receive(:gets).and_return("8\n", "2\n")
+      expect(subject).to receive(:valid_column).and_call_original.exactly(2).times
+      expect(subject.valid_column).to eq(2)
+    end
+  end
 end
