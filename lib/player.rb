@@ -4,11 +4,15 @@ require '../lib/dependencies'
 
 # This class creates the player with their name and the color of the piece to play.
 class Player < Board
-  attr_reader :name, :piece_color
+  attr_reader :name, :piece_color,
+    :piece
 
-  def initialize
-    super
-    @name = 'Player'
+  include Info
+
+  def initialize(name = 'Player', color)
+    @piece = "\u2742"
+    @name = name
+    @piece_color = piece(color)
   end
 
   def enter_name
@@ -21,20 +25,31 @@ class Player < Board
     end
   end
 
-  def enter_piece_color
-    valid_colors = %w[red blue yellow]
-    print "Select circle color (#{valid_colors.join(', ')}): "
+  def select_piece_color
+    valid_colors = %w[ blue cyan red white yellow ]
+    print Info.message('Select color')
+#} #{valid_colors.join(', ')}: "
     color = gets.chomp.downcase
-    return piece(color) if valid_colors.include?(color)
+    return color if valid_colors.include?(color)
 
-    enter_piece_color
+    select_piece_color
+  end
+
+  def piece(color)
+    { 'white' => "\u2742".white,
+      'red' => "\u2742".red,
+      'yellow' => "\u2742".yellow,
+      'blue' => "\u2742".blue,
+      'light red' => "\u2742".light_red,
+      'cyan' => "\u2742".cyan,
+      'light blue' => "\u2742".light_blue }[color]
   end
 
   def valid_column
+    print Info.message('select column')
     column = gets.chomp.to_i
     return column if column.between?(1, 7)
 
-    puts Info.message('select column')
     valid_column
   end
 end
