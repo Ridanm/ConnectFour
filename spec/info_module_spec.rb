@@ -20,14 +20,19 @@ RSpec.describe 'Info' do
   end
 
   describe '#message' do
-    msj = 'Select a column between 1 and 7.'
+    msj = 'Select a column between 1 and 7: '
     it 'when the row number is incorrect' do
       expect(Info.message('select column')).to eq(msj)
     end
 
     it 'The column is full' do
-      msj = 'This column is complete.'.light_red
+      msj = 'This column is complete, please select another !!!'.light_red
       expect(Info.message('full column')).to eq(msj)
+    end
+
+    it 'select color' do
+      msj = 'Select the color of the piece you will play with: '
+      expect(Info.message('select color')).to eq(msj)
     end
   end
 end
