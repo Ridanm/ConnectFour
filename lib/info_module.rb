@@ -7,9 +7,10 @@ module Info
   THREE_SPACES = '   '
 
   def self.message(parameter)
-    { 'welcome' => 'welcome to connect four'.upcase.on_blue,
-      'select column' => 'Select a column between 1 and 7.',
-      'full column' => 'This column is complete.'.light_red
+    { 'welcome' => 'welcome to connect four'.upcase.blue,
+      'select column' => 'Select a column between 1 and 7: ',
+      'full column' => 'This column is complete, please select another !!!'.light_red,
+      'select color' => 'Select the color of the piece you will play with: '
     }[parameter]
   end
 end
