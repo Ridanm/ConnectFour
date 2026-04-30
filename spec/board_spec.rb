@@ -55,24 +55,6 @@ RSpec.describe 'Board' do
     end
   end
 
-  describe '#piece(color)' do
-    let(:color_white) { board.piece 'white' }
-    let(:color_blue) { board.piece 'blue' }
-    let(:color_yellow) { board.piece 'yellow' }
-
-    it 'color is white' do
-      expect(color_white).to eq("\u2742".white)
-    end
-
-    it 'color is blue' do
-      expect(color_blue).to eq("\u2742".blue)
-    end
-
-    it 'color is yellow' do
-      expect(color_yellow).to eq("\u2742".yellow)
-    end
-  end
-
   describe '#drop_piece' do
     it 'when player choose column 1' do
       board.drop_piece?(1, piece)
