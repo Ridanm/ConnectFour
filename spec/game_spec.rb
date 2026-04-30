@@ -5,9 +5,8 @@ require '../lib/dependencies'
 RSpec.describe 'Game' do
   let(:piece) { "\u2742" }
   let(:board) { Board.new }
-  let(:player) { Player.new }
-  let(:player_one) { instance_double(Player) }
-  let(:player_two) { instance_double(Player) }
+  let(:player_one) { Player.new('Joe', 'red') }
+  let(:player_two) { Player.new('blue') }
   subject(:game) { Game.new(board, player_one, player_two) }
 
   describe '#initialize' do
@@ -21,13 +20,13 @@ RSpec.describe 'Game' do
     end
 
     it 'when create player one' do
-      expect(player).to receive(:gets).and_return('Joe')
-      player.enter_name
-      expect(player.name).to eq('Joe')
+      expect(player_one).to receive(:gets).and_return('Joe')
+      player_one.enter_name
+      expect(player_one.name).to eq('Joe')
     end
 
     it 'when create player two' do
-      expect(player).to respond_to(:enter_piece_color)
+      expect(player_two).to respond_to(:select_piece_color)
     end
 
     it 'the number of moves at the start' do
@@ -37,7 +36,7 @@ RSpec.describe 'Game' do
 
   describe '#presentation' do
     it 'when it displays the welcome message' do
-      welcome_message = 'WELCOME TO CONNECT FOUR'.on_blue
+      welcome_message = 'WELCOME TO CONNECT FOUR'.blue
       expect(Info.message('welcome')).to eq(welcome_message)
     end
   end
@@ -49,36 +48,45 @@ RSpec.describe 'Game' do
     end
 
     it 'if the column still has space' do
+      5.times { board.drop_piece?(1, piece) }
       expect(game.full_column?(1)).to be false
     end
   end
 
   describe '#swap_player' do
     it 'before changing players' do
-      expect(game.swap_player).to eq(player_one)
+      expect(game.number_of_moves).to be_odd
+      expect(game.swap_player).to eq(game.player)
     end
 
-    xit 'when changing players' do
-      game.swap_player
+    it 'when changing players' do
+      expect(game.board).to receive(:show_board)
+      allow(game.player).to receive(
+        :valid_column
+      ).and_return(2)
+      game.play_turn
       expect(game.swap_player).to eq(player_two)
-    end
-  end
-
-  describe '#player_move' do
-    it 'when a player drops a piece' do
-      expect(player).to receive(:gets).and_return("2\n")
-      column = player.valid_column
-      expect(game.player_move(column, piece)).to be true
+      expect(game.number_of_moves).to eq(2)
     end
   end
 
   describe '#play_turn' do
-    xit 'if the column is full' do
-
+    before do
+      expect(game.board).to receive(:show_board)
     end
 
-    xit 'if the column is empty' do
+    it 'if the column is full' do
+      6.times { board.drop_piece?(1, piece) }
+      allow(game.player).to receive(:valid_column).and_return(1, 2)
+      game.play_turn
+      expect(game.board.boxes[5][1]).to eq(game.player.piece_color)
+      expect(board.drop_piece?(2, game.player.piece_color)).to be(true)
+    end
 
+    it 'if the column is empty' do
+      allow(game.player).to receive(:valid_column).and_return(1)
+      game.play_turn
+      expect(board.boxes[5][0]).to eq(game.player.piece_color)
     end
   end
 end
