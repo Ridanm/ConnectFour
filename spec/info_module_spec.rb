@@ -26,13 +26,18 @@ RSpec.describe 'Info' do
     end
 
     it 'The column is full' do
-      msj = 'This column is complete, please select another !!!'.light_red
+      msj = 'This column is complete, please select another !!!'.yellow
       expect(Info.message('full column')).to eq(msj)
     end
 
     it 'select color' do
       msj = 'Select the color of the piece you will play with: '
       expect(Info.message('select color')).to eq(msj)
+    end
+
+    it "it's a draw" do
+      msj = 'The board is full and there is no winner, they want to play again.'
+      expect(Info.message("it's a draw")).to eq(msj)
     end
   end
 end
