@@ -41,10 +41,11 @@ RSpec.describe 'Game' do
     end
   end
 
-  describe '#column_full?' do
+  describe '#full_column?' do
     it 'when the column number is complete' do
       6.times { board.drop_piece?(1, piece) }
       expect(game.full_column?(1)).to be true
+      expect(game.board.boxes[0][0]).to eq(piece)
     end
 
     it 'if the column still has space' do
@@ -77,7 +78,9 @@ RSpec.describe 'Game' do
 
     it 'if the column is full' do
       6.times { board.drop_piece?(1, piece) }
-      allow(game.player).to receive(:valid_column).and_return(1, 2)
+      allow(game.player).to receive(
+        :valid_column
+      ).and_return(1, 2)
       game.play_turn
       expect(game.board.boxes[5][1]).to eq(game.player.piece_color)
       expect(board.drop_piece?(2, game.player.piece_color)).to be(true)
@@ -87,6 +90,42 @@ RSpec.describe 'Game' do
       allow(game.player).to receive(:valid_column).and_return(1)
       game.play_turn
       expect(board.boxes[5][0]).to eq(game.player.piece_color)
+    end
+  end
+
+  describe '#horizontal_victory?' do
+    it 'when connect four in a row' do
+      (1..4).each { |num| game.board.drop_piece?(num, game.player.piece_color) }
+      expect(game.horizontal_victory?).to be true
+    end
+
+    it 'when there are no four in a row' do
+      (1..3).each { |num| game.board.drop_piece?(num, game.player.piece_color) }
+      expect(game.horizontal_victory?).to be false
+    end
+  end
+
+  describe '#vertical_victofy?' do
+    it 'when there are four in a vertical line' do
+      4.times { game.board.drop_piece?(1, game.player.piece_color) }
+      expect(game.vertical_victory?).to be true
+    end
+
+    it 'if there are not four in a vertical line' do
+      3.times { game.board.drop_piece?(1, game.player.piece_color) }
+      expect(game.vertical_victory?).to be false
+    end
+  end
+
+  describe '#diagonal_victory' do
+    it 'if there are four in a line diagonally downwards' do
+      (0..3).each { |ind| board.boxes[ind][ind] = game.player.piece_color }
+      expect(game.diagonal_victory?).to be true
+    end
+
+    it 'when you connect four diagonally upwards' do
+      (0..3).each { |ind| board.boxes[5-ind][ind] = game.player.piece_color }
+      expect(game.diagonal_victory?).to be true
     end
   end
 end
