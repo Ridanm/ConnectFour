@@ -27,8 +27,7 @@ class Player < Board
 
   def select_piece_color
     valid_colors = %w[ blue cyan red white yellow ]
-    print Info.message('Select color')
-#} #{valid_colors.join(', ')}: "
+    print "#{Info.message('Select color')} #{valid_colors.join(', ')}: "
     color = gets.chomp.downcase
     return color if valid_colors.include?(color)
 
@@ -46,7 +45,7 @@ class Player < Board
   end
 
   def valid_column
-    print Info.message('select column')
+    print "\n#{Info.message('select column')}"
     column = gets.chomp.to_i
     return column if column.between?(1, 7)
 
