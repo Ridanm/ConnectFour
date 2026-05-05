@@ -1,5 +1,6 @@
 require 'colorize'
 require_relative 'info_module'
+require_relative 'victory_module'
 require_relative 'board'
 require_relative 'player'
 require_relative 'game'
