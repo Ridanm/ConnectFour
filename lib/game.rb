@@ -7,6 +7,7 @@ class Game
   attr_accessor :board, :player, :player_one, :player_two, :number_of_moves
 
   include Info
+  include Victory
 
   def initialize(board, player_one, player_two)
     @board = board
@@ -36,63 +37,36 @@ class Game
     until board.drop_piece?(column, player.piece_color)
       puts Info.message('full column')
       column = player.valid_column
-
     end
-
     @number_of_moves += 1
   end
 
-  def horizontal_victory?
-    @board.boxes.each do |row|
-      row.each_cons(4) do |line|
-        return true if line.all? { |box| box == player.piece_color }
-      end
-    end
-
-    false
-  end
-
-  def vertical_victory?
-    transpose_boxes = @board.boxes.transpose
-    transpose_boxes.each do |row|
-      row.each_cons(4) do |column|
-        return true if column.all? { |box| box == player.piece_color }
-      end
-    end
-
-    false
-  end
-
-  def descending_diagonal?
-    (0..2).each do |row|
-      (0..3).each do |col|
-        return true if (0..3).all? { |ind| board.boxes[row + ind][col + ind] == player.piece_color}
-      end
-    end
-
-    false
-  end
-
-  def ascending_diadonal?
-    (3..5).each do |row|
-      (0..3).each do |col|
-        return true if (0..3).all? { |ind| board.boxes[row - ind][col + ind] == player.piece_color }
-      end
-    end
-
-    false
-  end
-
-  def diagonal_victory?
-    descending_diagonal? || ascending_diadonal?
-  end
-
   def winner?
-    horizontal_victofy? || vertical_victory? || diagonal_victory?
+    all_lines.any? do |line|
+      line.each_cons(4).any? do |cons|
+        cons.all?(player.piece_color)
+      end
+    end
   end
 
   def draw
-    puts Info.message("It's a draw") if number_of_moves > 42 and winner? == false
+    number_of_moves >= 42 && winner? == false
+  end
+
+  def play
+    presentation
+    until full_board? || winner?
+      play_turn
+      puts Info.message('congratulations') if winner?
+      puts Info.message("it's a draw") if draw
+    end
+  end
+
+  def full_board?
+    if number_of_moves == 42
+      return true
+    end
+    false
   end
 
   def game_over?; end
