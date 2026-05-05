@@ -36,8 +36,13 @@ RSpec.describe 'Info' do
     end
 
     it "it's a draw" do
-      msj = 'The board is full and there is no winner, they want to play again.'
+      msj = 'The board is full and there is no winner, they want to play again.'.yellow
       expect(Info.message("it's a draw")).to eq(msj)
+    end
+
+    it 'congratulations' do
+      msj = "  Congratulations  \n You got 4 in a row, you're the winner!!!"
+      expect(Info.message('congratulations')).to eq(msj)
     end
   end
 end
