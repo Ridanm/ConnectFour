@@ -55,7 +55,7 @@ RSpec.describe 'Board' do
     end
   end
 
-  describe '#drop_piece' do
+  describe '#drop_piece?' do
     it 'when player choose column 1' do
       board.drop_piece?(1, piece)
       expect(board.boxes[5][0]).to eq(piece)
