@@ -20,13 +20,11 @@ RSpec.describe 'Game' do
     end
 
     it 'when create player one' do
-      expect(player_one).to receive(:gets).and_return('Joe')
-      player_one.enter_name
       expect(player_one.name).to eq('Joe')
     end
 
     it 'when create player two' do
-      expect(player_two).to respond_to(:select_piece_color)
+      expect(player_two).to respond_to(:valid_column)
     end
 
     it 'the number of moves at the start' do
@@ -36,8 +34,8 @@ RSpec.describe 'Game' do
 
   describe '#presentation' do
     it 'when it displays the welcome message' do
-      welcome_message = '  WELCOME TO CONNECT FOUR'.blue
-      expect(Info.message('welcome')).to eq(welcome_message)
+      welcome_message = "\n  WELCOME TO CONNECT FOUR".blue
+      expect(game.presentation).to eq(welcome_message)
     end
   end
 
