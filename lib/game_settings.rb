@@ -23,8 +23,8 @@ class GameSettings
     if players == '1'
       puts "\nYou have chosen to play against the computer...".green
       @player_one = create_player
-      # jugador virtual nombre y comor.de los restantes
-    else
+      # implement the virtual player with name and the remaining colors
+    elsif players == '2'
       puts "\nFirst Player ".green
       @player_one = create_player
       puts "\nSecond Player: ".green
