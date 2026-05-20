@@ -5,8 +5,7 @@ require_relative 'info_module'
 
 # This class creates the player with their name and the color of the piece to play.
 class Player < Board
-  attr_reader :name, :piece_color,
-    :piece
+  attr_reader :name, :piece_color, :color
 
   include Info
 
