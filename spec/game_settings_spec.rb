@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require 'colorize'
-require '../lib/game_settings'
+require_relative '../lib/dependencies'
 
 # The GameSettings class is responsible for obtaining the data necessary for creating the players.
 RSpec.describe GameSettings do
@@ -21,6 +20,10 @@ RSpec.describe GameSettings do
     it 'when initializing the players' do
       expect(subject.player_one).to be_nil
       expect(subject.player_two).to be_nil
+    end
+
+    it 'when initializing the virtual_player' do
+      expect(subject.virtual_player).to be_nil
     end
   end
 
@@ -59,8 +62,20 @@ RSpec.describe GameSettings do
         expect(subject.player_one).to eq(fake_player)
         expect(subject.player_one.name).to eq('Julia')
         expect(subject.player_one.piece_color).to eq(piece.yellow)
-        expect(subject.player_two).to be_nil
       end
+
+      it 'when virtual player is configured' do
+        allow(subject).to receive(:number_of_players).and_return('1')
+        allow(subject).to receive(:create_player)
+        fake_bot = VirtualPlayer.new('1')
+        allow(subject).to receive(:create_bot).and_return(fake_bot)
+
+        subject.before_starting
+
+        expect(subject.virtual_player).to be_a(VirtualPlayer)
+        expect(subject.virtual_player.name).to eq('Computer')
+        expect(subject.virtual_player.piece_color).to eq(piece.red)
+     end
     end
 
     context 'if the number of players is 2' do
