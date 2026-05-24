@@ -29,6 +29,7 @@ class Game
 
   def play_turn
     board.show_board
+    print @player.name 
     column = @player.valid_column
     until board.drop_piece?(column, @player.piece_color)
       puts Info.message('full column')
@@ -53,7 +54,7 @@ class Game
   def play
     until winner? || full_board?
       play_turn
-      puts Info.message('congratulations') if winner?
+      puts "#{@player.name} !!! #{Info.message('congratulations')}" if winner?
       puts Info.message("it's a draw") if draw
     end
   end
