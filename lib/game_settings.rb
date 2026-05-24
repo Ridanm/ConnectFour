@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require 'colorize'
-require_relative 'info_module'
-require_relative 'player'
+require_relative './dependencies'
 
 # This class was created for the presentation and configuration of various steps in the game.
 class GameSettings
-  attr_reader :avaliable_colors, :player_one, :player_two
+  attr_reader :avaliable_colors, :player_one, :player_two, :virtual_player
 
   include Info
 
@@ -23,7 +21,8 @@ class GameSettings
     if players == '1'
       puts "\nYou have chosen to play against the computer...".green
       @player_one = create_player
-      # implement the virtual player with name and the remaining colors
+      puts "\nVirtual Player".green
+      @virtual_player = create_bot
     elsif players == '2'
       puts "\nFirst Player ".green
       @player_one = create_player
@@ -37,6 +36,13 @@ class GameSettings
     show_colors(avaliable_colors)
     print "\n#{name}, "
     color = select_piece_color
-    player = Player.new(name, color)
+    Player.new(name, color)
+  end
+
+  def create_bot
+    show_colors(avaliable_colors)
+    bot_color = avaliable_colors.keys.sample
+    puts "Selected piece: #{avaliable_colors[bot_color]}"
+    VirtualPlayer.new(bot_color)
   end
 end
