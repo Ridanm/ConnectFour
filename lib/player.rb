@@ -18,7 +18,7 @@ class Player < Board
     { '1' => "\u2742".red,
       '2' => "\u2742".yellow,
       '3' => "\u2742".blue,
-      '4' => "\u2742".light_red,
+      '4' => "\u2742".green,
       '5' => "\u2742".cyan,
       '6' => "\u2742".light_blue }[color]
   end
