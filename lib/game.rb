@@ -27,9 +27,13 @@ class Game
     @player = (@number_of_moves.odd?) ? @player_one : @player_two
   end
 
+  def current_player_info
+    print "\n#{@player.name}, piece color => #{@player.piece_color}: "
+  end
+
   def play_turn
     board.show_board
-    print @player.name 
+    current_player_info
     column = @player.valid_column
     until board.drop_piece?(column, @player.piece_color)
       puts Info.message('full column')
@@ -54,7 +58,7 @@ class Game
   def play
     until winner? || full_board?
       play_turn
-      puts "#{@player.name} !!! #{Info.message('congratulations')}" if winner?
+      puts current_player_info, Info.message('congratulations') if winner?
       puts Info.message("it's a draw") if draw
     end
   end
@@ -66,7 +70,18 @@ class Game
     false
   end
 
-  def game_over?; end
+  def game_over?
+    # when is a winner
+    # or board is full
+  end
 
-  def play_again; end
+  def play_again
+    # can play again or exit
+    # 1 play again
+    # 2 exit
+  end
+
+  def save_game
+    # 3 save the current game 
+  end
 end
