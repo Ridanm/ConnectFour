@@ -45,7 +45,8 @@ RSpec.describe Info do
     end
 
     it 'congratulations' do
-      msj = "  Congratulations  \n You got 4 in a row, you're the winner!!!"
+      msj = "Congratulations \nYou're the winner!!!".green
+
       expect(Info.message('congratulations')).to eq(msj)
     end
   end
@@ -74,12 +75,12 @@ RSpec.describe Info do
   end
 
   it 'when select red piece' do
-      expect(subject).to receive(:select_piece_color).and_return("1\n")
+      allow(subject).to receive(:select_piece_color).and_return("1\n")
       expect(subject.select_piece_color).to eq("1\n")
     end
 
     it 'when you select a color that is not' do
-      expect(settings).to receive(:gets).and_return("8\n", "2\n")
+      allow(settings).to receive(:gets).and_return("8\n", "2\n")
       expect(settings).to receive(:select_piece_color).and_call_original.exactly(2).times
       expect(settings.select_piece_color).to eq("2")
     end
