@@ -58,9 +58,12 @@ class Game
   def play
     until winner? || full_board?
       play_turn
+    end
       puts current_player_info, Info.message('congratulations') if winner?
       puts Info.message("it's a draw") if draw
-    end
+      puts game_over if winner? or draw
+      play_again if enter_text == '1'
+      puts 'Nuevos jugadores' if enter_text == '2'
   end
 
   def full_board?
@@ -70,15 +73,20 @@ class Game
     false
   end
 
-  def game_over?
-    # when is a winner
-    # or board is full
+  def game_over
+    Info.message('game_over')
   end
 
   def play_again
-    # can play again or exit
-    # 1 play again
-    # 2 exit
+    puts "\New Board".green
+    @board = Board.new
+    @number_of_moves = 1
+    @player = swap_player
+    play
+  end
+
+  def enter_text
+    gets.chomp.downcase.strip.squeeze
   end
 
   def save_game
