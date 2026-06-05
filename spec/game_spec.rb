@@ -8,6 +8,7 @@ RSpec.describe 'Game' do
   let(:player_one) { Player.new('Joe', 'red') }
   let(:player_two) { Player.new('blue') }
   subject(:game) { Game.new(board, player_one, player_two) }
+  let(:game_setup) { GameSettings.new }
 
   describe '#initialize' do
     it 'when create board' do
@@ -69,6 +70,23 @@ RSpec.describe 'Game' do
     end
   end
 
+  describe '#current_player_info' do
+    before do
+      allow(game_setup).to receive(:presentation)
+      allow(game_setup).to receive(:puts)
+      allow(game_setup).to receive(:number_of_players).and_return('1')
+      allow(game_setup).to receive(:show_colors)
+      allow(game_setup).to receive(:create_bot)
+    end
+
+    it 'if the player in play is player one' do
+      fake_player = Player.new('Leti', '2')
+      allow(game_setup).to receive(:create_player).and_return(fake_player)
+      game_setup.before_starting
+      expect(game_setup.player_one).to be_a(Player)
+    end
+  end
+
   describe '#play_turn' do
     before do
       expect(game.board).to receive(:show_board)
@@ -120,8 +138,9 @@ RSpec.describe 'Game' do
 
     it 'when there is a winner' do
       msj = "  Congratulations  \n You got 4 in a row, you're the winner!!!"
-      
+
       expect(game).to receive(:play).and_return(msj)
+
       game.play
     end
 
@@ -130,6 +149,56 @@ RSpec.describe 'Game' do
 
       expect(game).to receive(:play).and_return(msj)
       game.play
+    end
+  end
+
+  describe '#game_over' do
+    it 'when the game ends' do
+      msj = "\nGAME OVER \nPress: 1 to play again \n       2 for new players \n       Or any key to exit".green
+      expect(game.game_over).to eq(msj)
+    end
+  end
+
+  describe '#play_again' do
+    let(:one) { Player.new('David', '2') }
+    let(:two) { Player.new('Ale', '1') }
+    let(:new_game) { Game.new(board, one, two) }
+    before do
+      allow(new_game).to receive(:play)
+    end
+
+    it 'when the game ends and the selection is 1 play again' do
+      new_game.instance_variable_set(:@number_of_moves, 10)
+      old_board = new_game.instance_variable_get(:@board)
+
+      new_game.play_again
+      expect(new_game.number_of_moves).to eq(1)
+      expect(new_game.instance_variable_get(:@board)).not_to eq(old_board)
+      expect(new_game.board).to be_a(Board)
+    end
+
+    it 'if the game is repeated, the swap method' do
+      expect(new_game).to receive(:swap_player).ordered
+      expect(new_game).to receive(:play).ordered
+      new_game.play_again
+    end
+
+    xit 'when the game ends and the selection is 2 new game' do
+    end
+
+    xit 'when the game ends and the choice is to leave' do
+    end
+  end
+
+  describe '#enter_text' do
+    it 'when entering the text' do
+      allow(game).to receive(:gets).and_return('1 ')
+      expect(game.enter_text).to eq('1')
+    end
+
+    it 'when entering text with spaces' do
+      allow(game).to receive(:gets).and_return('  A exIT  ')
+      expect(game.enter_text).to eq('a exit')
     end
   end
 end
