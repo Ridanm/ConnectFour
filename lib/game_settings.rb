@@ -43,6 +43,7 @@ class GameSettings
     show_colors(avaliable_colors)
     bot_color = avaliable_colors.keys.sample
     puts "Selected piece: #{avaliable_colors[bot_color]}"
+    sleep(1)
     VirtualPlayer.new(bot_color)
   end
 end
