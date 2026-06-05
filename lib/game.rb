@@ -62,8 +62,7 @@ class Game
       puts current_player_info, Info.message('congratulations') if winner?
       puts Info.message("it's a draw") if draw
       puts game_over if winner? or draw
-      play_again if enter_text == '1'
-      puts 'Nuevos jugadores' if enter_text == '2'
+      select_option
   end
 
   def full_board?
@@ -87,6 +86,12 @@ class Game
 
   def enter_text
     gets.chomp.downcase.strip.squeeze
+  end
+
+  def select_option
+    selected = enter_text
+    play_again if selected == '1'
+    puts 'New Players' if selected == '2'
   end
 
   def save_game
