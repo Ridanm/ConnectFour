@@ -22,7 +22,8 @@ module Info
       'select color' => 'Select the number corresponding to the color you want to play with: ',
       "it's a draw" => 'The board is full and there is no winner, they want to play again.'.yellow,
       'congratulations' => "Congratulations \nYou're the winner!!!".green,
-      'number of players' => "\nYou can choose between:\n - 1 player against the computer,\n - 2 players.... \n\nSelect the number of players: " }[parameter]
+      'number of players' => "\nYou can choose between:\n - 1 player against the computer,\n - 2 players.... \n\nSelect the number of players: ",
+      'game_over' => "\nGAME OVER \nPress: 1 to play again \n       2 for new players \n       Or any key to exit".green}[parameter]
   end
 
   def presentation
