@@ -11,7 +11,8 @@ class VirtualPlayer < Player
     # @piece_color = piece(color)
   end
 
-  def make_move
-
+  def valid_column
+    print 'Is thimking...'
+    sleep(1)
   end
 end
