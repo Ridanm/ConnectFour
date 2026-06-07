@@ -59,10 +59,8 @@ class Game
     until winner? || full_board?
       play_turn
     end
-      puts current_player_info, Info.message('congratulations') if winner?
-      puts Info.message("it's a draw") if draw
-      puts game_over if winner? or draw
-      select_option
+      show_text_at_the_end
+      select_option_when_finished
   end
 
   def full_board?
@@ -77,7 +75,7 @@ class Game
   end
 
   def play_again
-    puts "\New Board".green
+    puts "\nNew Board".green
     @board = Board.new
     @number_of_moves = 1
     @player = swap_player
@@ -88,10 +86,35 @@ class Game
     gets.chomp.downcase.strip.squeeze
   end
 
-  def select_option
+  def select_option_when_finished
     selected = enter_text
-    play_again if selected == '1'
-    puts 'New Players' if selected == '2'
+    if selected == '1'
+      play_again
+    elsif selected == '2'
+      new_players
+    else
+      puts "\nThanks for playing".green
+      exit
+    end
+  end
+
+  def show_text_at_the_end
+    puts current_player_info, Info.message('congratulations') if winner?
+    puts Info.message("it's a draw") if draw
+    puts game_over if winner? or draw
+  end
+
+  def new_players
+    puts "\nNew Players".green
+    game_settings = GameSettings.new
+    game_settings.before_starting
+
+    @board = Board.new
+    @player_one = game_settings.player_one
+    @player_two = game_settings.player_two
+    @number_of_moves = 1     
+    @player = swap_player
+    play
   end
 
   def save_game
