@@ -201,4 +201,16 @@ RSpec.describe 'Game' do
       expect(game.enter_text).to eq('a exit')
     end
   end
+
+  describe '#select_option_when_finished' do
+
+  end
+
+  describe '#show_text_at_the_end' do
+
+  end
+
+  describe '#new_players' do
+
+  end
 end
