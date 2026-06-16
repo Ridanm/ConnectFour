@@ -40,7 +40,7 @@ RSpec.describe Info do
     end
 
     it "it's a draw" do
-      msj = 'The board is full and there is no winner, they want to play again.'.yellow
+      msj = 'The board is full and there is no winner, they want to play again.'.green
       expect(Info.message("it's a draw")).to eq(msj)
     end
 
