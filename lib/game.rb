@@ -13,7 +13,7 @@ class Game
     @board = board
     @player_one = player_one
     @player_two = player_two
-    @number_of_moves = 1
+    @number_of_moves = 0
     @player = swap_player
   end
 
@@ -24,7 +24,7 @@ class Game
   end
 
   def swap_player
-    @player = (@number_of_moves.odd?) ? @player_one : @player_two
+    @player = (@number_of_moves.even?) ? @player_one : @player_two
   end
 
   def current_player_info
@@ -51,12 +51,17 @@ class Game
     end
   end
 
-  def draw
-    number_of_moves >= 42 && winner? == false
+  def draw?
+    if full_board? == true && winner? == false
+      return true
+    end
+    false
   end
 
   def play
     until winner? || full_board?
+      puts number_of_moves.to_s.cyan, full_board?
+
       play_turn
     end
       show_text_at_the_end
@@ -70,14 +75,10 @@ class Game
     false
   end
 
-  def game_over
-    Info.message('game_over')
-  end
-
   def play_again
     puts "\nNew Board".green
     @board = Board.new
-    @number_of_moves = 1
+    @number_of_moves = 0
     @player = swap_player
     play
   end
@@ -94,14 +95,13 @@ class Game
       new_players
     else
       puts "\nThanks for playing".green
-      exit
     end
   end
 
   def show_text_at_the_end
     puts current_player_info, Info.message('congratulations') if winner?
-    puts Info.message("it's a draw") if draw
-    puts game_over if winner? or draw
+    puts Info.message("it's a draw") if draw?
+    puts Info.message('game over') if winner? or draw?
   end
 
   def new_players
@@ -112,7 +112,7 @@ class Game
     @board = Board.new
     @player_one = game_settings.player_one
     @player_two = game_settings.player_two
-    @number_of_moves = 1     
+    @number_of_moves = 0  
     @player = swap_player
     play
   end
