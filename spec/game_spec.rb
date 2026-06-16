@@ -29,7 +29,7 @@ RSpec.describe 'Game' do
     end
 
     it 'the number of moves at the start' do
-      expect(game.number_of_moves).to eq(1)
+      expect(game.number_of_moves).to eq(0)
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe 'Game' do
 
   describe '#swap_player' do
     it 'before changing players' do
-      expect(game.number_of_moves).to be_odd
+      expect(game.number_of_moves).to be_even
       expect(game.swap_player).to eq(game.player)
     end
 
@@ -66,7 +66,7 @@ RSpec.describe 'Game' do
       ).and_return(2)
       game.play_turn
       expect(game.swap_player).to eq(player_two)
-      expect(game.number_of_moves).to eq(2)
+      expect(game.number_of_moves).to eq(1)
     end
   end
 
@@ -124,10 +124,14 @@ RSpec.describe 'Game' do
     end
   end
 
-  describe '#draw' do
-    it 'when is a draw' do
-      allow(game).to receive(:number_of_moves).and_return(42)
-      expect(game.draw).to be true
+  describe '#draw?' do
+    before do
+      allow(game).to receive(:full_board?).and_return(true)
+      allow(game).to receive(:winner?).and_return(false)
+    end
+
+    it 'when is a draw?' do
+      expect(game.draw?).to be true
     end
   end
 
@@ -152,13 +156,6 @@ RSpec.describe 'Game' do
     end
   end
 
-  describe '#game_over' do
-    it 'when the game ends' do
-      msj = "\nGAME OVER \nPress: 1 to play again \n       2 for new players \n       Or any key to exit".green
-      expect(game.game_over).to eq(msj)
-    end
-  end
-
   describe '#play_again' do
     let(:one) { Player.new('David', '2') }
     let(:two) { Player.new('Ale', '1') }
@@ -172,7 +169,7 @@ RSpec.describe 'Game' do
       old_board = new_game.instance_variable_get(:@board)
 
       new_game.play_again
-      expect(new_game.number_of_moves).to eq(1)
+      expect(new_game.number_of_moves).to eq(0)
       expect(new_game.instance_variable_get(:@board)).not_to eq(old_board)
       expect(new_game.board).to be_a(Board)
     end
@@ -181,12 +178,6 @@ RSpec.describe 'Game' do
       expect(new_game).to receive(:swap_player).ordered
       expect(new_game).to receive(:play).ordered
       new_game.play_again
-    end
-
-    xit 'when the game ends and the selection is 2 new game' do
-    end
-
-    xit 'when the game ends and the choice is to leave' do
     end
   end
 
@@ -203,14 +194,105 @@ RSpec.describe 'Game' do
   end
 
   describe '#select_option_when_finished' do
-
+    it 'when the game ends and the choice is to leave' do
+      msj = "\e[0;32;49m\nThanks for playing\e[0m\n"
+      allow(game).to receive(:enter_text).and_return('j')
+      expect { game.select_option_when_finished }.to output(msj).to_stdout
+    end
   end
 
   describe '#show_text_at_the_end' do
+    before do
+      allow(Info).to receive(:message).with('congratulations').and_return('Congratulations!!!')
+      allow(Info).to receive(:message).with('game over').and_return('Game Over')
+      allow(game).to receive(:current_player_info).and_return('Player 1')
+    end
 
+    context 'when there is a winner' do
+      before do
+        allow(game).to receive(:winner?).and_return(true)
+        allow(game).to receive(:draw?).and_return(false)
+      end
+
+      it 'Print player information, congratulations, and game over' do
+        congratulation_message = "Player 1\nCongratulations!!!\nGame Over\n"
+        expect { game.show_text_at_the_end }.to output(congratulation_message).to_stdout
+      end
+    end
+
+    context 'when the board is full' do
+      before do
+        allow(game).to receive(:winner?).and_return(false)
+        allow(game).to receive(:draw?).and_return(true)
+        allow(Info).to receive(:message).with("it's a draw").and_return("It's a draw")
+      end
+
+      it "the message it's a draw" do
+        draw_message = "It's a draw\nGame Over\n"
+        expect { game.show_text_at_the_end }.to output(draw_message).to_stdout
+      end
+    end
+
+    context 'during the course of the game' do
+      before do
+        allow(game).to receive(:winner?).and_return(false)
+        allow(game).to receive(:draw?).and_return(false)
+      end
+
+      it "It doesn't print anything." do
+        expect { game.show_text_at_the_end }.to output('').to_stdout
+      end
+    end
   end
 
   describe '#new_players' do
+      let(:player_1) { Player.new('Lola', '4') }
+      let(:player_2) { Player.new('ken', '1') }
+      let(:game) { Game.new(board, player_1, player_2)}
 
+    context 'current player 1' do
+      it 'We verified the player exists' do
+        expect(game.player_one).to be_a_kind_of(Player)
+      end
+
+      it 'current player 1 name' do
+        expect(game.player_one.name).to eq('Lola')
+      end
+      
+      it 'current player 1 piece color' do              expect(game.player.piece_color).to eq(piece.green)
+      end
+    end
+
+    context 'when the game ends' do
+      let(:mock_board) { instance_double(Board) }
+      let(:mock_settings) { instance_double(GameSettings) }
+      let(:new_player_1) { Player.new('New_player_1', '2') }
+      let(:new_player_2) { Player.new('new_player_2', '6') }
+      
+      before do
+        allow(game).to receive(:draw?).and_return(true)
+        allow(game).to receive(:show_text_at_the_end).and_return('2')
+        allow(game).to receive(:puts)
+        allow(GameSettings).to receive(:new).and_return(mock_settings)
+        allow(mock_settings).to receive(:before_starting)
+        allow(mock_settings).to receive(:player_one).and_return(new_player_1)
+        allow(mock_settings).to receive(:player_two).and_return(new_player_2)
+        allow(Board).to receive(:new).and_return(mock_board)
+        allow(game).to receive(:swap_player).and_return(new_player_1)
+        allow(game).to receive(:play)
+      end
+      
+      it 'and the selection is 2 new players' do
+        expect(GameSettings).to receive(:new)
+        expect(mock_settings).to receive(:before_starting)
+        game.new_players
+        expect(game.player_one.name).to eq('New_player_1')
+expect(game.instance_variable_get(:@board)).to eq(mock_board)
+        expect(game.instance_variable_get(:@player_one)).to eq(new_player_1)
+        expect(game.instance_variable_get(:@player_two)).to eq(new_player_2)
+        expect(game.instance_variable_get(:@number_of_moves)).to eq(0)
+        expect(game.instance_variable_get(:@player)).to eq(new_player_1)
+      end
+    end
   end
 end
