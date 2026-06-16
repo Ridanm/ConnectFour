@@ -20,7 +20,7 @@ module Info
       'select column' => 'Select a column between 1 and 7: ',
       'full column' => 'This column is complete, please select another !!!'.yellow,
       'select color' => 'Select the number corresponding to the color you want to play with: ',
-      "it's a draw" => 'The board is full and there is no winner, they want to play again.'.yellow,
+      "it's a draw" => 'The board is full and there is no winner, they want to play again.'.green,
       'congratulations' => "Congratulations \nYou're the winner!!!".green,
       'number of players' => "\nYou can choose between:\n - 1 player against the computer,\n - 2 players.... \n\nSelect the number of players: ",
       'game_over' => "\nGAME OVER \nPress: 1 to play again \n       2 for new players \n       Or any key to exit".green}[parameter]
