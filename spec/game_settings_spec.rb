@@ -73,7 +73,7 @@ RSpec.describe GameSettings do
         subject.before_starting
 
         expect(subject.virtual_player).to be_a(VirtualPlayer)
-        expect(subject.virtual_player.name).to eq('Computer')
+        expect(subject.virtual_player.name).to eq('Alpha_4')
         expect(subject.virtual_player.piece_color).to eq(piece.red)
       end
     end
