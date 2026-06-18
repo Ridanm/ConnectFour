@@ -24,30 +24,35 @@ RSpec.describe Info do
   end
 
   describe '#message' do
-    msj = 'Select a column between 1 and 7: '
+    select_column_messsge = 'Select a column between 1 and 7: '
     it 'when the row number is incorrect' do
-      expect(Info.message('select column')).to eq(msj)
+      expect(Info.message('select column')).to eq(select_column_messsge)
     end
 
     it 'The column is full' do
-      msj = 'This column is complete, please select another !!!'.yellow
-      expect(Info.message('full column')).to eq(msj)
+      full_column_messsge = 'This column is complete, please select another !!!'.yellow
+      expect(Info.message('full column')).to eq(full_column_messsge)
     end
 
     it 'select color' do
-      msj = 'Select the number corresponding to the color you want to play with: '
-      expect(Info.message('select color')).to eq(msj)
+      select_color_message = 'Select the number corresponding to the color you want to play with: '
+      expect(Info.message('select color')).to eq(select_color_message)
     end
 
     it "it's a draw" do
-      msj = 'The board is full and there is no winner, they want to play again.'.green
-      expect(Info.message("it's a draw")).to eq(msj)
+      draw_message = 'The board is full and there is no winner, they want to play again.'.green
+      expect(Info.message("it's a draw")).to eq(draw_message)
     end
 
     it 'congratulations' do
-      msj = "Congratulations \nYou're the winner!!!".green
+      congratulations_message = "Congratulations \nYou're the winner!!!".green
 
-      expect(Info.message('congratulations')).to eq(msj)
+      expect(Info.message('congratulations')).to eq(congratulations_message)
+    end
+
+    it 'game over' do
+      game_over_message = "\nGAME OVER \nPress: 1 to play again \n       2 for new players \n       Or any key to exit".green
+      expect(Info.message('game over')).to eq(game_over_message)
     end
   end
 
