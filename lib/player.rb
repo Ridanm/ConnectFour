@@ -14,15 +14,6 @@ class Player < Board
     @piece_color = piece(color)
   end
 
-  def piece(color)
-    { '1' => "\u2742".red,
-      '2' => "\u2742".yellow,
-      '3' => "\u2742".blue,
-      '4' => "\u2742".green,
-      '5' => "\u2742".cyan,
-      '6' => "\u2742".light_blue }[color]
-  end
-
   def valid_column
     print "\n#{Info.message('select column')}"
     column = gets.chomp.to_i
