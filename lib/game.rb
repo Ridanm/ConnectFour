@@ -60,8 +60,6 @@ class Game
 
   def play
     until winner? || full_board?
-      puts number_of_moves.to_s.cyan, full_board?
-
       play_turn
     end
       show_text_at_the_end
