@@ -4,7 +4,7 @@ require_relative './dependencies'
 
 # This class was created for the presentation and configuration of various steps in the game.
 class GameSettings
-  attr_reader :avaliable_colors, :player_one, :player_two, :virtual_player
+  attr_reader :avaliable_colors, :player_one, :player_two
 
   include Info
 
@@ -12,7 +12,6 @@ class GameSettings
     @avaliable_colors = COLORS.dup
     @player_one = nil
     @player_two = nil
-    @virtual_player = nil
   end
 
   def before_starting
@@ -22,7 +21,7 @@ class GameSettings
       puts "\nYou have chosen to play against the computer...".green
       @player_one = create_player
       puts "\nVirtual Player".green
-      @virtual_player = create_bot
+      @player_two = create_bot
     elsif players == '2'
       puts "\nFirst Player ".green
       @player_one = create_player
