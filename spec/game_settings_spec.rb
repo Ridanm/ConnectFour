@@ -21,10 +21,6 @@ RSpec.describe GameSettings do
       expect(subject.player_one).to be_nil
       expect(subject.player_two).to be_nil
     end
-
-    it 'when initializing the virtual_player' do
-      expect(subject.virtual_player).to be_nil
-    end
   end
 
   describe '#create_player' do
@@ -46,17 +42,21 @@ RSpec.describe GameSettings do
   end
 
   describe '#before_starting' do
+    fake_player = Player.new('Julia', '2')
+    
     before do
       allow(subject).to receive(:presentation)
       allow(subject).to receive(:puts)
+      allow(subject).to receive(:sleep)
     end
 
     context 'if the number of players is 1' do
-      it 'when a player is configured' do
+      before do
         allow(subject).to receive(:number_of_players).and_return('1')
-        fake_player = Player.new('Julia', '2')
         allow(subject).to receive(:create_player).and_return(fake_player)
+      end
 
+      it 'when a player is configured' do
         subject.before_starting
 
         expect(subject.player_one).to eq(fake_player)
@@ -72,9 +72,9 @@ RSpec.describe GameSettings do
 
         subject.before_starting
 
-        expect(subject.virtual_player).to be_a(VirtualPlayer)
-        expect(subject.virtual_player.name).to eq('Alpha_4')
-        expect(subject.virtual_player.piece_color).to eq(piece.red)
+        expect(subject.player_two).to be_a(VirtualPlayer)
+        expect(subject.player_two.name).to eq('Alpha_4')
+        expect(subject.player_two.piece_color).to eq(piece.red)
       end
     end
 
