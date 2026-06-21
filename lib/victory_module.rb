@@ -23,7 +23,7 @@ module Victory
   def descending_diagonals
     # On the diagonal \ the difference of its indices is constant (r_ind - c_ind)
     groups = {}
-    @board.boxes.each_with_index do |row, r_ind|
+    rows.each_with_index do |row, r_ind|
       row.each_with_index do |cell, c_ind|
         (groups[r_ind - c_ind] ||= []) << cell
       end
@@ -34,7 +34,7 @@ module Victory
   def ascending_diagonals
     # On the diagonal / the sum of its indices is constant (r_ind + c_ind)
     groups = {}
-    @board.boxes.each_with_index do |row, r_ind|
+    rows.each_with_index do |row, r_ind|
       row.each_with_index do |cell, c_ind|
         (groups[r_ind + c_ind] ||= []) << cell
       end
