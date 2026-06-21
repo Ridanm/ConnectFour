@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'dependencies'
+require_relative 'board'
 
 # This module implements the four-line search
 module Victory
