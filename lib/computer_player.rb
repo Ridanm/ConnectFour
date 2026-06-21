@@ -1,23 +1,24 @@
 # frozen_string_literal: true
 
+require 'pry-byebug'
 require_relative 'dependencies'
+require_relative 'board'
 # This class implements the autonomous player in case of playing against the computer
 class VirtualPlayer
   attr_reader :name, :piece_color, :color
   
   include Info
+  include Victory
 
   def initialize(color)
     @name = 'Alpha_4'
     @piece_color = piece(color)
   end
 
-  def valid_column
+  def valid_column(board)
     print 'Is thimking...'
-    puts "\n#{name} is calculating best move... 🤖".blue
     sleep(1)
-    avaliable_free_columns
-    column_with_empty_cells if avaliable_free_columns.empty?
+    avaliable_free_columns(board) || column_with_empty_cells(board)
   
   # Prioridad 1: ¿Puedo ganar en este turno?
  # winning_move = board.find_winning_move(color)
@@ -42,7 +43,7 @@ class VirtualPlayer
     
   end
 
-  def avaliable_free_columns(board = @board)
+  def avaliable_free_columns(board)
     columns = []
     free_columns = board.boxes.transpose
     free_columns.each_with_index do |row, index|
@@ -52,7 +53,7 @@ class VirtualPlayer
       columns.sample
   end
 
-  def column_with_empty_cells(board = @board)
+  def column_with_empty_cells(board)
     columns = []
     squqres_with_space = board.boxes.transpose
     squqres_with_space.each_with_index do |row, index|
