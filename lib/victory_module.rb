@@ -14,7 +14,7 @@ module Victory
   end
 
   def columns
-    @board.boxes.transpose
+    rows.transpose
   end
 
   def diagonals
