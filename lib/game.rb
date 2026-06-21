@@ -34,10 +34,10 @@ class Game
   def play_turn
     board.show_board
     current_player_info
-    column = @player.valid_column
+    column = @player.valid_column(@board)
     until board.drop_piece?(column, @player.piece_color)
       puts Info.message('full column')
-      column = @player.valid_column
+      column = @player.valid_column(@board)
     end
     @number_of_moves += 1
     swap_player

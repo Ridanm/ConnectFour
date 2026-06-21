@@ -14,7 +14,7 @@ class Player < Board
     @piece_color = piece(color)
   end
 
-  def valid_column
+  def valid_column(board)
     print "\n#{Info.message('select column')}"
     column = gets.chomp.to_i
     return column if column.between?(1, 7)
