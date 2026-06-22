@@ -19,6 +19,6 @@ class Player < Board
     column = gets.chomp.to_i
     return column if column.between?(1, 7)
 
-    valid_column
+    valid_column(board)
   end
 end
