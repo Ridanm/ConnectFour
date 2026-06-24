@@ -27,17 +27,6 @@ RSpec.describe VirtualPlayer do
         expect(bot.avaliable_free_columns(board)).to eq(7)
       end
     end
-
-    context 'when there are no free columns' do
-      before do
-        7.times { |column_number| board.drop_piece?(column_number + 1, piece) }
-      end
-
-      it 'the bot return any box between 1 and 7' do
-        allow(bot).to receive(:avaliable_free_columns).with(board).and_return(2)
-        expect(bot.avaliable_free_columns(board)).to eq(2)  
-      end
-    end
   end
 
   describe '#column_with_empty_cells(board)' do
@@ -52,6 +41,14 @@ RSpec.describe VirtualPlayer do
       expect(result).to include(5)
       expect(result).to include(2)
       expect(result).not_to include(4)
+    end
+  end
+
+  describe '#find_winning_move(alpha_color)' do
+    context 'if there are pieces of the same color' do
+      it 'when there are two pieces' do
+        expect(bot.find_winning_move(bot.piece_color)).to eq(3)
+      end
     end
   end
 end
