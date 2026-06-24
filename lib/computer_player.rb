@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-require 'pry-byebug'
 require_relative 'dependencies'
-require_relative 'board'
+
 # This class implements the autonomous player in case of playing against the computer
 class VirtualPlayer
   attr_reader :name, :piece_color, :color
@@ -34,12 +33,12 @@ class VirtualPlayer
    # sleep(1)
   end
 
-  def find_winning_move(alpha_color)
-    # verificar que el color se pueda colocar en linea, columna, diagonal
+  def find_winning_move(board, bot_color)
+    # verificar que el color se pueda colocar en linea, columna, diagonal con color ya existente.
     # de lo contrario elegir otra columna donde tenga mas fichas si las hay
   end
 
-  def opponent_winning_move(oponnent_color)
+  def opponent_winning_move(board, oponnent_color)
     
   end
 
