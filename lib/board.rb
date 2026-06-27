@@ -41,4 +41,10 @@ class Board
     end
     false
   end
+
+  def remove_piece(column, piece)
+    # 1- First, verify that the bot has just placed a piece in that column.
+    # 2- Check if there is a potential winner; if not, remove the piece to try another square
+    # 3- Check again, and if there is still no winner, place the piece where there are more pieces of the same color.
+  end
 end
