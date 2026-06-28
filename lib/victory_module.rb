@@ -40,6 +40,6 @@ module Victory
         (groups[r_ind + c_ind] ||= []) << cell
       end
     end
-    groups.values.select { |diag| diag.size >= 4}
+    groups.values.select { |diag| diag.size >= 4 }
   end
 end
