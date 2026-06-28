@@ -6,4 +6,3 @@ require_relative 'player'
 require_relative 'game'
 require_relative 'game_settings'
 require_relative 'computer_player'
-
