@@ -17,28 +17,34 @@ class VirtualPlayer
   def valid_column(board)
     print 'Is thimking...'
     sleep(1)
-    avaliable_free_columns(board) || column_with_empty_cells(board)
-  
-  # Prioridad 1: ¿Puedo ganar en este turno?
- # winning_move = board.find_winning_move(color)
-  #return winning_move if winning_move
-
-  # Prioridad 2: ¿El rival va a ganar en su próximo turno? ¡Bloquear!
+    p avaliable_free_columns(board) || column_with_empty_cells(board)
+    # Prioridad 1: The opponent wins on their next turn? ¡blocking_move!
  # opponent_color = (color == 'red' ? 'yellow' : 'red') # Ajusta según tus colores
   #blocking_move = board.find_winning_move(opponent_color)
   #return blocking_move if blocking_move
+    
+  # Prioridad 2: I can ein in this turn? 
+ # winning_move = board.find_winning_move(color)
+  #return winning_move if winning_move
 
-  # Prioridad 3: Si no hay peligro ni victoria inminente, elegir al azar o el centro
+  # Prioridad 3: If there is no inmminent victory, select any.
   #board.free_columns.sample
    # sleep(1)
   end
 
-  def find_winning_move(board, bot_color)
-    # verificar que el color se pueda colocar en linea, columna, diagonal con color ya existente.
-    # de lo contrario elegir otra columna donde tenga mas fichas si las hay
+  def find_winning_move(bot_color)
+    
   end
 
-  def opponent_winning_move(board, oponnent_color)
+  def counting_tokens(amount, actual_color)
+    all_lines.any? do |line|
+      line.each_cons(amount).any? do |group|
+        group.all?(actual_color)
+      end
+    end
+  end
+  
+  def opponent_winning_move(oponnent_color)
     
   end
 
@@ -48,7 +54,6 @@ class VirtualPlayer
     free_columns.each_with_index do |row, index|
       columns << index + 1 if row.all? { |element| element == ' ' }
     end
-    #.implement step when columns are empty
       columns.sample
   end
 
@@ -61,3 +66,9 @@ class VirtualPlayer
       columns.sample
   end
 end
+
+# Notes to reviews
+# Method remove_piece created in board class.
+# 1- First, verify that the bot has just placed a piece in that column.
+    # 2- Check if there is a potential winner; if not, remove the piece to try another square
+    # 3- Check again, and if there is still no winner, place the piece where there are more pieces of the same color.
