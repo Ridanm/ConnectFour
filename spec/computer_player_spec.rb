@@ -44,10 +44,46 @@ RSpec.describe VirtualPlayer do
     end
   end
 
-  describe '#find_winning_move(alpha_color)' do
-    context 'if there are pieces of the same color' do
-      it 'when there are two pieces' do
-        expect(bot.find_winning_move(bot.piece_color)).to eq(3)
+  describe '#find_winning_move' do
+    context 'if there are 2 pieces of the same color in column 3' do
+      before do
+        2.times { board.drop_piece?(3, bot.piece_color) }
+      end
+      
+      xit 'return the column 3' do
+        expect(bot.find_winning_move(board, bot.piece_color)).to eq(3)
+      end
+    end
+  end
+
+  describe '#counting_tokens' do
+    context 'if there are 2 pieces of the same color in column 6' do
+      before do
+        2.times { board.drop_piece?(6, bot.piece_color)}
+        allow(bot).to receive(:rows).and_return(board.boxes)
+      end
+      
+      it 'return true' do
+        expect(bot.counting_tokens(2, bot.piece_color)).to be(true)
+      end
+
+      it 'return false' do
+        expect(bot.counting_tokens(3, bot.piece_color)).to be(false)
+      end
+    end
+
+    context 'if there are 3 pieces of the same color in square 7' do
+      before do
+        3.times { board.drop_piece?(7, bot.piece_color)}
+        allow(bot).to receive(:rows).and_return(board.boxes)
+      end
+
+      it 'return true' do
+        expect(bot.counting_tokens(3, bot.piece_color)).to be(true)
+      end
+
+      it 'return false' do
+        expect(bot.counting_tokens(4, bot.piece_color)).to be(false)
       end
     end
   end

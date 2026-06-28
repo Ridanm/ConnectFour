@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-require '../lib/dependencies'
+require_relative '../lib/dependencies'
 
 RSpec.describe 'Board' do
   subject(:board) { Board.new }
   let(:piece) { "\u2742" }
+  let(:game) { Game.new(board, Player.new('Rob', '1'), Player.new('Alpha', '2')) }
 
   describe '#initialize' do
     it 'when initialize board' do
@@ -66,6 +67,24 @@ RSpec.describe 'Board' do
       board.boxes[4][0] = piece
       4.times { board.drop_piece?(1, piece) }
       expect(board.drop_piece?(1, piece)).to be false
+    end
+  end
+
+  describe '#remove_piece' do
+    context 'if there are 3 pieces in square 3' do
+      before do
+        3.times { board.drop_piece?(3, piece) }
+      end
+      
+      it 'if we check the column 3' do
+        board.drop_piece?(3, piece)
+        expect(board.boxes[3][2]).to eq(piece)
+      end
+
+      it 'remove piece in the column 3' do
+        board.remove_piece(3)
+        expect(board.boxes[3][2]).to eq(' ')
+      end
     end
   end
 end
