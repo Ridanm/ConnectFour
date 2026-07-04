@@ -51,4 +51,10 @@ class Board
     end
     false
   end
+
+  def full_column?(column)               if @boxes[0][column - 1] != A_SPACE
+      return true
+    end
+    false
+end
 end
