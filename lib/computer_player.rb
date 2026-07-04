@@ -17,25 +17,27 @@ class VirtualPlayer
   def valid_column(board)
     print 'Is thimking...'
     sleep(1)
-    p avaliable_free_columns(board) || column_with_empty_cells(board)
-    # Prioridad 1: The opponent wins on their next turn? ¡blocking_move!
- # opponent_color = (color == 'red' ? 'yellow' : 'red') # Ajusta según tus colores
-  #blocking_move = board.find_winning_move(opponent_color)
-  #return blocking_move if blocking_move
-    
-  # Prioridad 2: I can ein in this turn? 
- # winning_move = board.find_winning_move(color)
-  #return winning_move if winning_move
-
-  # Prioridad 3: If there is no inmminent victory, select any.
-  #board.free_columns.sample
-   # sleep(1)
+    # verify that the column is not full
+    avaliable_free_columns(board) || column_with_empty_cells(board)
   end
 
-  def find_winning_move(bot_color)
-    
+  def find_winning_move(board, bot_color)
+    @board = board
+    board.column_numbers.each do |column|
+      column unless board.full_column?(column)
+      board.drop_piece?(column, bot_color)
+      return column if winner?(piece_color)
+      board.remove_piece(column)
+    end
+    false
   end
-
+  # Estos pasos van fuera porque son de la clase computer game y board respectivamente, a su vez el metodod find_winning_move() va eñdentro del metodo valid_column
+  # 1- verificar si es movimiento ganador de no ser asi 
+     # - podenos guardar los movimientos que tengan tres piezas consecutivas para usarls en el proximo movimiento.
+  # 2- llamamod a board borrar ultima pieza colocada 
+  # 3- repetimos el paso 1, 2, 3
+  # Seriann7 movimientos 1 por columna si no hay winner? colocamos una ficha al azar
+  
   def counting_tokens(amount, actual_color)
     all_lines.any? do |line|
       line.each_cons(amount).any? do |group|
@@ -44,8 +46,11 @@ class VirtualPlayer
     end
   end
   
-  def opponent_winning_move(oponnent_color)
-    
+  def blocking_move(oponnent_color)
+    # Prioridad 1: The opponent wins on their next turn? ¡blocking_move!
+ # opponent_color = (color == 'red' ? 'yellow' : 'red') # Ajusta según tus colores
+  #blocking_move = board.find_winning_move(opponent_color)
+  #return blocking_move if blocking_move
   end
 
   def avaliable_free_columns(board)
