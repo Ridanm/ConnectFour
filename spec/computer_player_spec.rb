@@ -23,7 +23,7 @@ RSpec.describe VirtualPlayer do
         6.times { |column_number| board.drop_piece?(column_number + 1, piece) }
       end
       
-      it 'the bot can return the column number' do
+      it 'the bot can return the column number 7' do
         expect(bot.avaliable_free_columns(board)).to eq(7)
       end
     end
@@ -45,13 +45,21 @@ RSpec.describe VirtualPlayer do
   end
 
   describe '#find_winning_move' do
-    context 'if there are 2 pieces of the same color in column 3' do
+    context 'if there are 3 pieces of the same color in column 3' do
       before do
-        2.times { board.drop_piece?(3, bot.piece_color) }
+        3.times { board.drop_piece?(3, bot.piece_color) }
       end
       
-      xit 'return the column 3' do
-        expect(bot.find_winning_move(board, bot.piece_color)).to eq(3)
+      it 'return the winning column' do
+        result = bot.find_winning_move(board, bot.piece_color)
+        expect(result).to eq(3)
+      end
+    end
+
+    context 'when there is no winning column' do
+      it 'return false' do
+        result = bot.find_winning_move(board, bot.piece_color)
+        expect(result).to be false
       end
     end
   end
