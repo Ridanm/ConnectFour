@@ -24,7 +24,7 @@ RSpec.describe 'Victory' do
     context 'when there is a vertical winner' do
       it 'return true' do
         4.times { game.board.drop_piece?(3, game.player.piece_color) }
-        expect(game.winner?).to be true
+        expect(game.winner?(game.player.piece_color)).to be true
       end
     end
 
@@ -39,13 +39,13 @@ RSpec.describe 'Victory' do
         [[4, 2], [3, 3], [2, 4], [1, 5]].each do |count, col|
           count.times { game.board.drop_piece?(col, game.player.piece_color) }
         end
-        expect(game.winner?).to be true
+        expect(game.winner?(game.player.piece_color)).to be true
       end
     end
 
     context 'when no one has 4 in a row' do
       it 'return false' do
-        expect(game.winner?).to be false
+        expect(game.winner?(game.player.piece_color)).to be false
       end
     end
   end
