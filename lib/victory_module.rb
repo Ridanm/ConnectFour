@@ -42,4 +42,12 @@ module Victory
     end
     groups.values.select { |diag| diag.size >= 4 }
   end
+
+  def winner?(color)
+    all_lines.any? do |line|
+      line.each_cons(4).any? do |cons|
+        cons.all?(color)
+      end
+    end
+  end
 end
