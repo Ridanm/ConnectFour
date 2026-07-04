@@ -17,12 +17,6 @@ class Game
     @player = swap_player
   end
 
-  def full_column?(column)              if board.boxes[0][column - 1] != A_SPACE
-      return true
-    end
-      false
-  end
-
   def swap_player
     @player = (@number_of_moves.even?) ? @player_one : @player_two
   end
@@ -43,23 +37,15 @@ class Game
     swap_player
   end
 
-  def winner?
-    all_lines.any? do |line|
-      line.each_cons(4).any? do |cons|
-        cons.all?(@player.piece_color)
-      end
-    end
-  end
-
   def draw?
-    if full_board? == true && winner? == false
+    if full_board? == true && winner?(@player.piece_color) == false
       return true
     end
     false
   end
 
   def play
-    until winner? || full_board?
+    until winner?(piece_color) || full_board?
       play_turn
     end
       show_text_at_the_end
@@ -97,9 +83,9 @@ class Game
   end
 
   def show_text_at_the_end
-    puts current_player_info, Info.message('congratulations') if winner?
+    puts current_player_info, Info.message('congratulations') if winner?(@player.piece_color)
     puts Info.message("it's a draw") if draw?
-    puts Info.message('game over') if winner? or draw?
+    puts Info.message('game over') if winner?(@player.piece_color) or draw?
   end
 
   def new_players
