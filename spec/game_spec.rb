@@ -43,13 +43,13 @@ RSpec.describe 'Game' do
   describe '#full_column?' do
     it 'when the column number is complete' do
       6.times { board.drop_piece?(1, piece) }
-      expect(game.full_column?(1)).to be true
+      expect(game.board.full_column?(1)).to be true
       expect(game.board.boxes[0][0]).to eq(piece)
     end
 
     it 'if the column still has space' do
       5.times { board.drop_piece?(1, piece) }
-      expect(game.full_column?(1)).to be false
+      expect(game.board.full_column?(1)).to be false
     end
   end
 
@@ -112,7 +112,7 @@ RSpec.describe 'Game' do
   describe '#winner?' do
     it 'four in one column' do
       4.times { game.board.drop_piece?(1, game.player.piece_color) }
-      expect(game.winner?).to be true
+      expect(game.winner?(game.player.piece_color)).to be true
     end
 
     it 'four in a diagonal' do
@@ -120,14 +120,14 @@ RSpec.describe 'Game' do
       [[3, 4], [3, 3], [2, 2], [1, 1]].each do |count, col|
         count.times { game.board.drop_piece?(col, game.player.piece_color) }
       end
-      expect(game.winner?).to be true
+      expect(game.winner?(game.player.piece_color)).to be true
     end
   end
 
   describe '#draw?' do
     before do
       allow(game).to receive(:full_board?).and_return(true)
-      allow(game).to receive(:winner?).and_return(false)
+      allow(game).to receive(:winner?).with(game.player.piece_color).and_return(false)
     end
 
     it 'when is a draw?' do
@@ -210,7 +210,7 @@ RSpec.describe 'Game' do
 
     context 'when there is a winner' do
       before do
-        allow(game).to receive(:winner?).and_return(true)
+        allow(game).to receive(:winner?).with(game.player.piece_color).and_return(true)
         allow(game).to receive(:draw?).and_return(false)
       end
 
@@ -235,7 +235,7 @@ RSpec.describe 'Game' do
 
     context 'during the course of the game' do
       before do
-        allow(game).to receive(:winner?).and_return(false)
+        allow(game).to receive(:winner?).with(player_one.piece_color).and_return(false)
         allow(game).to receive(:draw?).and_return(false)
       end
 
