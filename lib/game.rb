@@ -45,7 +45,7 @@ class Game
   end
 
   def play
-    until winner?(piece_color) || full_board?
+    until winner?(@player.piece_color) || full_board?
       play_turn
     end
       show_text_at_the_end
