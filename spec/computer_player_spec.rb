@@ -57,9 +57,9 @@ RSpec.describe VirtualPlayer do
     end
 
     context 'when there is no winning column' do
-      it 'return false' do
+      it 'return nil' do
         result = bot.find_winning_move(board, bot.piece_color)
-        expect(result).to be false
+        expect(result).to be_nil
       end
     end
   end
