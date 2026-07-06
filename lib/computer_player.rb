@@ -18,25 +18,22 @@ class VirtualPlayer
     print 'Is thimking...'
     sleep(1)
     # verify that the column is not full
-    avaliable_free_columns(board) || column_with_empty_cells(board)
+    find_winning_move(board, piece_color) || avaliable_free_columns(board) || column_with_empty_cells(board)
   end
 
-  def find_winning_move(board, bot_color)
+  def find_winning_move(board, color)
     @board = board
     board.column_numbers.each do |column|
       column unless board.full_column?(column)
-      board.drop_piece?(column, bot_color)
-      return column if winner?(piece_color)
+      board.drop_piece?(column, color)
+      if winner?(piece_color)
+        board.remove_piece(column)
+        return column
+      end
       board.remove_piece(column)
     end
-    false
+    nil
   end
-  # Estos pasos van fuera porque son de la clase computer game y board respectivamente, a su vez el metodod find_winning_move() va eñdentro del metodo valid_column
-  # 1- verificar si es movimiento ganador de no ser asi 
-     # - podenos guardar los movimientos que tengan tres piezas consecutivas para usarls en el proximo movimiento.
-  # 2- llamamod a board borrar ultima pieza colocada 
-  # 3- repetimos el paso 1, 2, 3
-  # Seriann7 movimientos 1 por columna si no hay winner? colocamos una ficha al azar
   
   def counting_tokens(amount, actual_color)
     all_lines.any? do |line|
@@ -46,11 +43,8 @@ class VirtualPlayer
     end
   end
   
-  def blocking_move(oponnent_color)
-    # Prioridad 1: The opponent wins on their next turn? ¡blocking_move!
- # opponent_color = (color == 'red' ? 'yellow' : 'red') # Ajusta según tus colores
-  #blocking_move = board.find_winning_move(opponent_color)
-  #return blocking_move if blocking_move
+  def blocking_move(board, oponnent_color)
+    find_winning_move(board, opponent_color)
   end
 
   def avaliable_free_columns(board)
