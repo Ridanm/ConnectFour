@@ -6,7 +6,7 @@ RSpec.describe VirtualPlayer do
   let(:piece) { "\u2742" }
   let(:board) { Board.new }
   bot = VirtualPlayer.new('1')
-  
+
   describe '#initialize' do
     it 'the name of the virtual player' do
       expect(bot.name).to eq('Alpha_4')
@@ -22,7 +22,7 @@ RSpec.describe VirtualPlayer do
       before do
         6.times { |column_number| board.drop_piece?(column_number + 1, piece) }
       end
-      
+
       it 'the bot can return the column number 7' do
         expect(bot.avaliable_free_columns(board)).to eq(7)
       end
@@ -30,12 +30,12 @@ RSpec.describe VirtualPlayer do
   end
 
   describe '#column_with_empty_cells(board)' do
-    let(:fake_board) { double("Board") }
+    let(:fake_board) { double('Board') }
 
     before do
       allow(bot).to receive(:column_with_empty_cells).with(fake_board).and_return([1, 2, 5, 7])
     end
-    
+
     it 'if there are still empty spaces' do
       result = bot.column_with_empty_cells(fake_board)
       expect(result).to include(5)
@@ -49,7 +49,7 @@ RSpec.describe VirtualPlayer do
       before do
         3.times { board.drop_piece?(3, bot.piece_color) }
       end
-      
+
       it 'return the winning column' do
         result = bot.find_winning_move(board, bot.piece_color)
         expect(result).to eq(3)
@@ -67,10 +67,10 @@ RSpec.describe VirtualPlayer do
   describe '#counting_tokens' do
     context 'if there are 2 pieces of the same color in column 6' do
       before do
-        2.times { board.drop_piece?(6, bot.piece_color)}
+        2.times { board.drop_piece?(6, bot.piece_color) }
         allow(bot).to receive(:rows).and_return(board.boxes)
       end
-      
+
       it 'return true' do
         expect(bot.counting_tokens(2, bot.piece_color)).to be(true)
       end
@@ -82,7 +82,7 @@ RSpec.describe VirtualPlayer do
 
     context 'if there are 3 pieces of the same color in square 7' do
       before do
-        3.times { board.drop_piece?(7, bot.piece_color)}
+        3.times { board.drop_piece?(7, bot.piece_color) }
         allow(bot).to receive(:rows).and_return(board.boxes)
       end
 
@@ -92,6 +92,21 @@ RSpec.describe VirtualPlayer do
 
       it 'return false' do
         expect(bot.counting_tokens(4, bot.piece_color)).to be(false)
+      end
+    end
+  end
+
+  describe '#blocking_move' do
+    let(:player_one) { instance_double(Player, name: 'Rob', piece_color: piece.red) }
+
+    context 'when there are three consecutive pieces from player one' do
+      before do
+        3.times { board.drop_piece?(4, player_one.piece_color) }
+      end
+
+      it 'if they are in column 4' do
+        opponent_color = player_one.piece_color
+        expect(bot.blocking_move(board, opponent_color)).to eq(4)
       end
     end
   end
