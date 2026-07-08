@@ -14,17 +14,17 @@ class VirtualPlayer
     @piece_color = piece(color)
   end
 
-  def valid_column(board)
-    print 'Is thimking...'
+  def valid_column(board, player_color)
+    print 'Thinking...'
     sleep(1)
     # verify that the column is not full
-    find_winning_move(board, piece_color) || avaliable_free_columns(board) || column_with_empty_cells(board)
+    find_winning_move(board, piece_color) || blocking_move(board, player_color) || avaliable_free_columns(board) || column_with_empty_cells(board)
   end
 
   def find_winning_move(board, color)
     @board = board
     board.column_numbers.each do |column|
-      column unless board.full_column?(column)
+      next if board.full_column?(column)
       board.drop_piece?(column, color)
       if winner?(piece_color)
         board.remove_piece(column)
@@ -43,8 +43,18 @@ class VirtualPlayer
     end
   end
   
-  def blocking_move(board, oponnent_color)
-    find_winning_move(board, opponent_color)
+  def blocking_move(board, opponent_color)
+    @board = board
+    board.column_numbers.each do |column|
+      next if board.full_column?(column)
+      board.drop_piece?(column, opponent_color)
+      if winner?(opponent_color)
+        board.remove_piece(column)
+        return column
+      end
+      board.remove_piece(column)
+    end
+    nil
   end
 
   def avaliable_free_columns(board)
@@ -65,9 +75,3 @@ class VirtualPlayer
       columns.sample
   end
 end
-
-# Notes to reviews
-# Method remove_piece created in board class.
-# 1- First, verify that the bot has just placed a piece in that column.
-    # 2- Check if there is a potential winner; if not, remove the piece to try another square
-    # 3- Check again, and if there is still no winner, place the piece where there are more pieces of the same color.
