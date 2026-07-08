@@ -94,9 +94,7 @@ RSpec.describe 'Game' do
 
     it 'if the column is full' do
       6.times { board.drop_piece?(1, piece) }
-      allow(game.player).to receive(
-        :valid_column
-      ).and_return(1, 2)
+      allow(game.player).to receive(:valid_column).and_return(1, 2)
       game.play_turn
       expect(game.board.boxes[5][1]).to eq(game.player.piece_color)
       expect(board.drop_piece?(2, game.player.piece_color)).to be(true)
@@ -144,7 +142,6 @@ RSpec.describe 'Game' do
       msj = "  Congratulations  \n You got 4 in a row, you're the winner!!!"
 
       expect(game).to receive(:play).and_return(msj)
-
       game.play
     end
 
@@ -160,6 +157,7 @@ RSpec.describe 'Game' do
     let(:one) { Player.new('David', '2') }
     let(:two) { Player.new('Ale', '1') }
     let(:new_game) { Game.new(board, one, two) }
+
     before do
       allow(new_game).to receive(:play)
     end
@@ -246,9 +244,9 @@ RSpec.describe 'Game' do
   end
 
   describe '#new_players' do
-      let(:player_1) { Player.new('Lola', '4') }
-      let(:player_2) { Player.new('ken', '1') }
-      let(:game) { Game.new(board, player_1, player_2)}
+    let(:player1) { Player.new('Lola', '4') }
+    let(:player2) { Player.new('ken', '1') }
+    let(:game) { Game.new(board, player1, player2) }
 
     context 'current player 1' do
       it 'We verified the player exists' do
@@ -258,40 +256,41 @@ RSpec.describe 'Game' do
       it 'current player 1 name' do
         expect(game.player_one.name).to eq('Lola')
       end
-      
-      it 'current player 1 piece color' do              expect(game.player.piece_color).to eq(piece.green)
+
+      it 'current player 1 piece color' do
+        expect(game.player.piece_color).to eq(piece.green)
       end
     end
 
     context 'when the game ends' do
       let(:mock_board) { instance_double(Board) }
       let(:mock_settings) { instance_double(GameSettings) }
-      let(:new_player_1) { Player.new('New_player_1', '2') }
-      let(:new_player_2) { Player.new('new_player_2', '6') }
-      
+      let(:new_player1) { Player.new('new_player1', '2') }
+      let(:new_player2) { Player.new('new_player2', '6') }
+
       before do
         allow(game).to receive(:draw?).and_return(true)
         allow(game).to receive(:show_text_at_the_end).and_return('2')
         allow(game).to receive(:puts)
         allow(GameSettings).to receive(:new).and_return(mock_settings)
         allow(mock_settings).to receive(:before_starting)
-        allow(mock_settings).to receive(:player_one).and_return(new_player_1)
-        allow(mock_settings).to receive(:player_two).and_return(new_player_2)
+        allow(mock_settings).to receive(:player_one).and_return(new_player1)
+        allow(mock_settings).to receive(:player_two).and_return(new_player2)
         allow(Board).to receive(:new).and_return(mock_board)
-        allow(game).to receive(:swap_player).and_return(new_player_1)
+        allow(game).to receive(:swap_player).and_return(new_player1)
         allow(game).to receive(:play)
       end
-      
+
       it 'and the selection is 2 new players' do
         expect(GameSettings).to receive(:new)
         expect(mock_settings).to receive(:before_starting)
         game.new_players
-        expect(game.player_one.name).to eq('New_player_1')
-expect(game.instance_variable_get(:@board)).to eq(mock_board)
-        expect(game.instance_variable_get(:@player_one)).to eq(new_player_1)
-        expect(game.instance_variable_get(:@player_two)).to eq(new_player_2)
+        expect(game.player_one.name).to eq('new_player1')
+        expect(game.instance_variable_get(:@board)).to eq(mock_board)
+        expect(game.instance_variable_get(:@player_one)).to eq(new_player1)
+        expect(game.instance_variable_get(:@player_two)).to eq(new_player2)
         expect(game.instance_variable_get(:@number_of_moves)).to eq(0)
-        expect(game.instance_variable_get(:@player)).to eq(new_player_1)
+        expect(game.instance_variable_get(:@player)).to eq(new_player1)
       end
     end
   end
