@@ -73,13 +73,13 @@ RSpec.describe Info do
     end
   end
 
-  describe '#select_piece_color' do 
+  describe '#select_piece_color' do
     it 'when you select the blue piece' do
-    allow(Info).to receive(:select_piece_color).and_return("3\n")
-    expect(subject.select_piece_color).to eq("3\n")
-  end
+      allow(Info).to receive(:select_piece_color).and_return("3\n")
+      expect(subject.select_piece_color).to eq("3\n")
+    end
 
-  it 'when select red piece' do
+    it 'when select red piece' do
       allow(subject).to receive(:select_piece_color).and_return("1\n")
       expect(subject.select_piece_color).to eq("1\n")
     end
@@ -87,7 +87,7 @@ RSpec.describe Info do
     it 'when you select a color that is not' do
       allow(settings).to receive(:gets).and_return("8\n", "2\n")
       expect(settings).to receive(:select_piece_color).and_call_original.exactly(2).times
-      expect(settings.select_piece_color).to eq("2")
+      expect(settings.select_piece_color).to eq('2')
     end
   end
 
