@@ -43,7 +43,7 @@ RSpec.describe GameSettings do
 
   describe '#before_starting' do
     fake_player = Player.new('Julia', '2')
-    
+
     before do
       allow(subject).to receive(:presentation)
       allow(subject).to receive(:puts)
