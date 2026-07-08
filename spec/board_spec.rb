@@ -75,7 +75,7 @@ RSpec.describe 'Board' do
       before do
         3.times { board.drop_piece?(3, piece) }
       end
-      
+
       it 'if we check the column 3' do
         board.drop_piece?(3, piece)
         expect(board.boxes[3][2]).to eq(piece)
