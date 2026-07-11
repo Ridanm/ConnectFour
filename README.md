@@ -5,4 +5,4 @@
 - In the development of the game I have dedicated myself to using Rspec for its implementation and understanding of said testing framework.
 - If you encounter any problems during gameplay, or have any suggestions, please send an email to danyfox1.dm@gmail.com
 - Link for Connect Four:
-- [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Ridanm/ConnectFour.git)
+- [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Ridanm/ConnectFour)
