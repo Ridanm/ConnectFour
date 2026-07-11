@@ -1,1 +1,19 @@
-ruby lib/main.rb
+FROM ruby:3.3
+
+# 1. Actualizar el sistema e instalar ttyd para la terminal web
+RUN apt-get update && apt-get install -y ttyd && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# 2. Si usas gemas externas, esto las instalará (si no tienes Gemfile, no pasa nada, se lo salta)
+COPY Gemfile* ./
+RUN if [ -f Gemfile ]; then bundle install; fi
+
+# 3. Copiar todo el contenido de tu proyecto al contenedor
+COPY . .
+
+# 4. Render utiliza por defecto el puerto 10000
+EXPOSE 10000
+
+# 5. Arrancar ttyd en el puerto dinámico de Render ejecutando tu juego en lib/main.rb
+CMD ["sh", "-c", "ttyd -p $PORT ruby lib/main.rb"]
