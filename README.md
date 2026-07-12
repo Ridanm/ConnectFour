@@ -6,5 +6,8 @@
 - To run the game in the console from the terminal while in the Connect Four root folder, execute the command: ruby ​​lib/main.rb
 - Link for Game Connect Four:
 - [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Ridanm/ConnectFour)
+- Link for Game in Replit:
+- If you use Replit, you must first run the game, then go to the console (>_) to be able to play.
+- https://replit.com/@ridanm/ConnectFour?s=app
 - If you encounter any problems during gameplay, or have any suggestions, please send an email to danyfox1.dm@gmail.com
 
