@@ -18,6 +18,7 @@ require_relative 'dependencies'
 # 5- Game instance
 #    - execution of the play method
 
+system('clear')
 game_settings = GameSettings.new
 game_settings.before_starting
 
