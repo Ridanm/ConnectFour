@@ -21,12 +21,16 @@ class GameSettings
       puts "\nYou have chosen to play against the computer...".green
       @player_one = create_player
       puts "\nVirtual Player".green
+      system('clear')
       @player_two = create_bot
+      system('clear')
     elsif players == '2'
       puts "\nFirst Player ".green
       @player_one = create_player
+      system('clear')
       puts "\nSecond Player: ".green
       @player_two = create_player
+      system('clear')
     end
   end
 
