@@ -47,7 +47,9 @@ class Game
   def play
     until winner?(@player.piece_color) || full_board?
       play_turn
+      system('clear')
     end
+      @board.show_board
       show_text_at_the_end
       select_option_when_finished
   end
@@ -92,16 +94,11 @@ class Game
     puts "\nNew Players".green
     game_settings = GameSettings.new
     game_settings.before_starting
-
     @board = Board.new
     @player_one = game_settings.player_one
     @player_two = game_settings.player_two
     @number_of_moves = 0  
     @player = swap_player
     play
-  end
-
-  def save_game
-    # 3 save the current game 
   end
 end
